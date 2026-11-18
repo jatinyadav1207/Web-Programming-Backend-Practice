@@ -32,8 +32,15 @@ As in the tutorial, login verifies a bcrypt password hash and returns the user's
 
 1. Start the server and wait for the Atlas connection message.
 2. In Postman, choose **Import** and select `Web-Programming-Backend-Practice.postman_collection.json`. Use the desktop app or the desktop agent for localhost requests.
-3. Keep `baseUrl` at `http://127.0.0.1:4000`, or update it if you changed the port.
+3. Optionally import `Web-Programming-Backend-Practice.postman_environment.json` and select **Web Programming Backend Practice (Local)**. The collection and environment both default to `http://127.0.0.1:4000`. If you changed the server port, update `baseUrl` in the active environment or in the collection when no environment is selected.
 4. Run the collection in order. Register generates a unique practice user for Login and Logout. Create Post saves `postId` for List, Update and Delete. The run removes its post and leaves the practice user in the database.
+
+## How the code works
+
+- `index.js` loads settings from `.env` and starts Express after `config/database.js` connects to Atlas.
+- `app.js` enables JSON request bodies and mounts the user and post routers. Each router links an HTTP method and URL to a controller function.
+- The controllers validate requests, call the Mongoose models, and send a JSON response. The models define which fields MongoDB documents contain and apply schema validation.
+- Before saving a user, the user model hashes their password with bcrypt. Login compares the submitted password with the stored hash and returns only public user fields.
 
 ## Differences from the tutorial
 
